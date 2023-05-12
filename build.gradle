@@ -1,25 +1,26 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.0.6'
-    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.springframework.boot' version '2.7.11'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
-group = 'com.example'
+group = 'punkty'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation group: 'com.h2database', name: 'h2', version: '1.4.196'
+    implementation group: 'io.vavr', name: 'vavr', version: '0.10.4'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.projectreactor:reactor-test'
-    implementation group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-4'
     testImplementation 'junit:junit:4.13.1'
-
-
+    testImplementation 'org.testng:testng:7.1.0'
+    testImplementation 'junit:junit:4.13.1'
 }
 
 tasks.named('test') {

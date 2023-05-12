@@ -6,15 +6,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @RestController
 @RequestMapping("/punkty")
 public class PunktyController {
 //    private List<String> users = new CopyOnWriteArrayList<String>();
-    private StudentService service=new StudentService();
+    private final StudentService service;
+
+    public PunktyController(StudentService service)
+    {
+        this.service = service;
+    }
 
 
     //@RequestMapping(value = "/students", method = RequestMethod.GET)

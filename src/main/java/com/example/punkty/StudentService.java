@@ -1,18 +1,49 @@
 package com.example.punkty;
 
 import io.vavr.collection.*;
+import org.springframework.stereotype.Service;
 
+import java.util.function.Function;
 
+@Service
 public class StudentService {
     private List<Student> students = List.empty();
+    private final StudentRepository repository;
 
-    public List<Student> getStudents(){
-        return this.students;
+    public StudentService(StudentRepository repository) {
+        this.repository = repository;
     }
-    public Student addStudent(NewStudent student){
-        Student created = new Student(students.size()+1, student.name, student.number, student.groupp );
-        students = this.students.prepend(created);
-        return created;
+
+//    List<Student> getStudents() {
+//        return List.ofAll(this.repository.findAll())
+//                .map(getStudentRowStudentFunction());
+//    }
+    List<Student> getStudents() {
+        return List.ofAll(this.repository.findAll())
+                .map(dbObj->
+                        new Student(
+                                dbObj.getId(),
+                                dbObj.getName(),
+                                dbObj.getNumber(),
+                                dbObj.getGroup())
+                );
+    }
+
+    private static Function<StudentRow, Student> getStudentRowStudentFunction() {
+        return x -> new Student(
+                x.getId(),
+                x.getName(),
+                x.getNumber(),
+                x.getGroup()
+        );
+    }
+    Student addStudent(final NewStudent newStudent) {
+        StudentRow created = this.repository.save(new StudentRow(
+                newStudent.name,
+                newStudent.number,
+                newStudent.groupp
+        ));
+        return getStudentRowStudentFunction().apply(created);
     }
 
 
